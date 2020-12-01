@@ -6,7 +6,7 @@ import products from '../products'
 
 const ProductScreen = ({ match }) => {
 	const product = products.find(
-		(product) => product.name === match.params.name
+		(product) => product._id === match.params.id
 	)
 	return <div>{product.name}</div>
 }
