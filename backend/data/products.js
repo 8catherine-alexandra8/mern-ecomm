@@ -1,6 +1,5 @@
 const products = [
 	{
-		_id          : '1',
 		name         : 'Minimalist Tricolor Sandals',
 		image        : '/images/triColorMinimalStrapSandalSideView.jpg',
 		description  :
@@ -13,7 +12,6 @@ const products = [
 		numReviews   : 12
 	},
 	{
-		_id          : '2',
 		name         : 'Ballet Flats with Ankle Strap',
 		image        : '/images/neonYellowGrayBalletFlatAnkleStrap.jpg',
 		description  :
@@ -26,7 +24,6 @@ const products = [
 		numReviews   : 8
 	},
 	{
-		_id          : '3',
 		name         : 'Cutout Ankle Wrap Sandal',
 		image        : '/images/neonPinkBlackCutOutSandal.jpg',
 		description  :
@@ -39,7 +36,6 @@ const products = [
 		numReviews   : 12
 	},
 	{
-		_id          : '4',
 		name         : 'Thong Sandle With Ankle Strap',
 		image        : '/images/bronzeRedThongAnkleStrapSandalSideView.jpg',
 		description  :
@@ -52,7 +48,6 @@ const products = [
 		numReviews   : 12
 	},
 	{
-		_id          : '5',
 		name         : 'Tri Color Strappy Heels',
 		image        : '/images/blackOrangeTealOpenToeHighHeels.jpg',
 		description  :
@@ -65,7 +60,6 @@ const products = [
 		numReviews   : 10
 	},
 	{
-		_id          : '6',
 		name         : 'Suede Thong Scrunched Bootie Sandal',
 		image        : '/images/brownSuedeAnkleBootThongSandal.jpg',
 		description  :
