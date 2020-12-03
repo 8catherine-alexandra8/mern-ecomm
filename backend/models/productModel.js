@@ -39,10 +39,12 @@ const productSchema = mongoose.Schema(
 			type     : String,
 			required : true
 		},
-		keywords     : {
-			type     : String,
-			required : true
-		},
+		keywords     : [
+			{
+				type     : String,
+				required : true
+			}
+		],
 		reviews      : {
 			type     : Number,
 			required : true,
