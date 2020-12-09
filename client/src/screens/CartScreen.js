@@ -11,7 +11,7 @@ import {
 	Card
 } from 'react-bootstrap'
 import Message from '../components/Message'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 const CartScreen = ({ match, location, history }) => {
 	const productId = match.params.id
@@ -33,7 +33,17 @@ const CartScreen = ({ match, location, history }) => {
 	)
 
 	const removeFromCartHandler = (id) => {
-		//dispatch(removeFromCart(id))
+		dispatch(removeFromCart(id))
+		//with only the above code, if user tries to delete
+		//the item just added to the cart, while the url
+		//is still reflecting that item's id and qty,
+		//the url stays populated with
+		//the product id of the deleted item and the quantity
+		//of the deleted item.  If the user refreshes the browser at
+		//this point, the deleted item/item qty gets added back into
+		//the cart, per the first condition of the useEffect hook above
+		//To remedy that:
+		history.push('/cart')
 	}
 
 	const checkoutHandler = () => {
