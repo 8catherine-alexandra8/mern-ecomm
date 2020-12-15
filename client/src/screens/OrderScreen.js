@@ -11,12 +11,15 @@ const OrderScreen = ({ match }) => {
     const orderId = match.params.id
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getOrderDetails(orderId)) 
-    }, [])
-
     const orderDetails = useSelector(state => state.orderDetails)
     const { order, loading, error } = orderDetails
+    
+    useEffect(() => {
+        if(!order || order._id !== orderId) {
+        dispatch(getOrderDetails(orderId))
+        }
+    }, [dispatch, order, orderId])
+
 
     //  Calculate prices
     if (!loading) {    
