@@ -149,6 +149,11 @@ const updateUser = asyncHandler(async (req, res) => {
 	if (user) {
 		user.name = req.body.name || user.name
 		user.email = req.body.email || user.email
+		//line below works in Postman but if it doesn't work in production
+		//try this: user.isAdmin = Boolean(req.body.isAdmin), but I don't
+		//want to resort to that because if the user to be updated
+		//is already an admin, that value will be switched to false if
+		//true isn't 'edited' to remain true, which is dumb.
 		user.isAdmin = req.body.isAdmin || user.isAdmin
 
 		const updatedUser = await user.save()
