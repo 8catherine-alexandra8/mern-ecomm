@@ -154,7 +154,7 @@ const updateUser = asyncHandler(async (req, res) => {
 		//want to resort to that because if the user to be updated
 		//is already an admin, that value will be switched to false if
 		//true isn't 'edited' to remain true, which is dumb.
-		user.isAdmin = req.body.isAdmin || user.isAdmin
+		user.isAdmin = req.body.isAdmin //|| user.isAdmin
 
 		const updatedUser = await user.save()
 
