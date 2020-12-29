@@ -5,9 +5,10 @@ import Product from '../models/productModel.js'
 //route: GET /api/products
 //access: Public
 const getProducts = asyncHandler(async (req, res) => {
+	const pageSize = 
 	const keyword = req.query.keyword
 		? {
-				name : {
+				keywords : {
 					$regex   : req.query.keyword,
 					$options : 'i'
 				}
