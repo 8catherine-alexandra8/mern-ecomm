@@ -100,7 +100,6 @@ const ProductEditScreen = ({ match, history }) => {
       })
     )
   }
-
   return (
     <>
       <Link to='/admin/productlist' className='btn btn-light my-3'>
@@ -183,11 +182,11 @@ const ProductEditScreen = ({ match, history }) => {
             </Form.Group>
 
             <Form.Group controlId='countInStock'>
-              <Form.Label>Total In Stock</Form.Label>
+              <Form.Label>{`Total In Stock (confirm: ${Object.keys(sizeInStock).reduce((sum,key) => sum + parseFloat(sizeInStock[key]||0),0)} )`}</Form.Label>
               <Form.Control
                 type='number'
                 placeholder='Enter countInStock'
-                value={Object.keys(sizeInStock).reduce((sum,key) => sum + parseFloat(sizeInStock[key]||0),0)}
+                value={countInStock}
                 onChange={(e) => setCountInStock(e.target.value)}
               ></Form.Control>
             </Form.Group>

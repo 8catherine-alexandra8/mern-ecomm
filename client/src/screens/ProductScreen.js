@@ -71,7 +71,6 @@ const ProductScreen = ({ history, match }) => {
         })
       )
     }
-selectedQty && console.log(selectedQty)
 	return (
         <>
             <Link className='btn btn-light my-3' to='/'>
