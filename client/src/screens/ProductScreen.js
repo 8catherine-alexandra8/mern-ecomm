@@ -10,7 +10,10 @@ import { listProductDetails, createProductReview } from '../actions/productActio
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
 const ProductScreen = ({ history, match }) => {
-    const [qty, setQty] = useState(1)
+    const [selectedQty, setSelectedQty] = useState()
+    const [availableQty, setAvailableQty] = useState(1)    
+    const [inStockSizes, setInStockSizes] = useState([])
+    const [selectedSize, setSelectedSize] = useState('5')
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
 
@@ -40,8 +43,23 @@ const ProductScreen = ({ history, match }) => {
 
     }, [dispatch, match, successProductReview])
 
+    useEffect(() => {
+      let stocked = []
+      if (product.sizeInStock) {
+      for (const [key, value] of Object.entries(product.sizeInStock)) {
+        if (value > 0) {
+          stocked.push(key)        
+        } 
+        setInStockSizes(stocked)
+
+        if (key === selectedSize) {
+            setAvailableQty(value)
+        }
+      }
+    }}, [selectedSize, product.sizeInStock])
+
     const addToCartHandler = () => {
-        history.push(`/cart/${match.params.id}?qty=${qty}`)
+        history.push(`/cart/${match.params.id}?selectedQty=${selectedQty}`)
     }
 
     const submitHandler = (e) => {
@@ -90,15 +108,27 @@ const ProductScreen = ({ history, match }) => {
                                     </Col>
                                 </Row>
                             </ListGroup.Item>
-                            <ListGroup.Item>
-                                <Row>
-                                    <Col>Status:</Col>
-                                    <Col>
-                                        {product.countInStock > 0 ? 'In Stock' : 'Sold Out'}
-                                    </Col>
-                                </Row>
-                            </ListGroup.Item>
-                            {product.countInStock > 0 && (
+                            {(product.countInStock > 0 && inStockSizes) && (
+                              <>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col>Size</Col>
+                                        <Col>
+                                            <Form.Control
+                                            className='size-select' 
+                                            as='select'
+                                            value={selectedSize}
+                                            onChange={(e) => setSelectedSize(e.target.value)}
+                                            >
+                                            {inStockSizes.map((size) => (
+                                                <option key={size} value={size}>
+                                                {size}
+                                                </option>
+                                             ))}
+                                            </Form.Control>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Qty</Col>
@@ -106,10 +136,10 @@ const ProductScreen = ({ history, match }) => {
                                             <Form.Control
                                             className='qty-select' 
                                             as='select'
-                                            value={qty}
-                                            onChange={(e) => setQty(e.target.value)}
+                                            value={selectedQty}
+                                            onChange={(e) => setSelectedQty(e.target.value)}
                                             >
-                                            {[...Array(product.countInStock).keys()].map(
+                                            {[...Array(availableQty).keys()].map(
                                                 (x) => (
                                                 <option key={x + 1} value={x + 1}>
                                                 {x + 1}
@@ -120,6 +150,7 @@ const ProductScreen = ({ history, match }) => {
                                         </Col>
                                     </Row>
                                 </ListGroup.Item>
+                              </>
                             )}
                             <ListGroup.Item>
                                 <Button onClick={addToCartHandler}className='btn-block' type='button' disabled={product.countInStock === 0} >
@@ -204,3 +235,16 @@ const ProductScreen = ({ history, match }) => {
 }
 
 export default ProductScreen
+
+                            // <ListGroup.Item>
+                            //     <Row>
+                            //         <Col>Status:</Col>
+                            //         <Col>
+                            //             {product.countInStock > 0 ? 'In Stock' : 'Sold Out'}
+                            //         </Col>
+                            //     </Row>
+                            // </ListGroup.Item>
+        // setInStockSizes(stocked)
+        // if (key === selectedSize && value === 0) {
+        //   setOosSize(key)
+        //   console.log(oosSize)

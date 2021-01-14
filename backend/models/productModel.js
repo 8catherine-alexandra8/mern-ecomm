@@ -15,7 +15,6 @@ const reviewSchema = mongoose.Schema(
 		timestamps : true
 	}
 )
-
 const productSchema = mongoose.Schema(
 	{
 		user         : {
@@ -29,10 +28,6 @@ const productSchema = mongoose.Schema(
 			required : true
 		},
 		image        : {
-			type     : String,
-			required : true
-		},
-		brand        : {
 			type     : String,
 			required : true
 		},
@@ -71,6 +66,14 @@ const productSchema = mongoose.Schema(
 			type     : Number,
 			required : true,
 			default  : 0
+		},
+		sizeInStock  : {
+			5  : { type: Number, required: true, default: 0 },
+			6  : { type: Number, required: true, default: 0 },
+			7  : { type: Number, required: true, default: 0 },
+			8  : { type: Number, required: true, default: 0 },
+			9  : { type: Number, required: true, default: 0 },
+			10 : { type: Number, required: true, default: 0 }
 		}
 	},
 	{ timestamps: true }

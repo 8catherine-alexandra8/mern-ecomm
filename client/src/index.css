@@ -1,12 +1,27 @@
 main {
     min-height: 80vh;
 }
+.navbar-brand {
+  font-size: 1.8rem;
+}
+.search-btn {
+  color: teal;
+  border: 2px solid teal;  
+  }
+.search-btn:hover {
+  color: white;
+  background-color: teal;
+  border: 2px solid teal;  
+  transition: all 0.5s ease;
+}
+
 h1 {
     font-size: 1.8rem;
-    padding: 1rem 0;
+    padding: 1rem 0 0;
+    margin-bottom: 0;
 }
 h2 {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     padding: 0.5rem 0;
 }
 
@@ -21,6 +36,15 @@ h3 {
 .qty-select {
     width: auto;
 }
+/*productEditScreen Sizes in Stock*/
+.size-label {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+.text-center {
+  text-align: center;
+  margin-bottom: 8px;
+}
 /* carousel */
 /* carousel */
 .carousel-item-next,
@@ -34,7 +58,7 @@ h3 {
 }
 
 .carousel-caption h2 {
-  color: #fff;
+  color: black;
 }
 
 .carousel img {
@@ -48,8 +72,11 @@ h3 {
 .carousel a {
   margin: 0 auto;
 }
-@media (max-width: 900px) {
+.carousel-inner {
+background-color: white;
+}
+@media (min-width: 1000px) {
   .carousel-caption h2 {
-    font-size: 2.5vw;
+    font-size: 1.4rem;
   }
 }

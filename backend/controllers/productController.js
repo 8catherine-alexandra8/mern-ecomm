@@ -5,7 +5,7 @@ import Product from '../models/productModel.js'
 //route: GET /api/products
 //access: Public
 const getProducts = asyncHandler(async (req, res) => {
-	const pageSize = 6
+	const pageSize = 8
 	const page = Number(req.query.pageNumber) || 1
 	const keyword = req.query.keyword
 		? {
@@ -57,11 +57,18 @@ const createProduct = asyncHandler(async (req, res) => {
 		price        : 0,
 		user         : req.user._id,
 		image        : '/images/sample.svg',
-		brand        : 'Sample brand',
 		category     : 'Sample category',
 		countInStock : 0,
 		numReviews   : 0,
-		description  : 'Sample description'
+		description  : 'Sample description',
+		sizeInStock  : {
+			5  : 0,
+			6  : 0,
+			7  : 0,
+			8  : 0,
+			9  : 0,
+			10 : 0
+		}
 	})
 
 	const createdProduct = await product.save()
@@ -77,9 +84,10 @@ const updateProduct = asyncHandler(async (req, res) => {
 		price,
 		description,
 		image,
-		brand,
+		keywords,
 		category,
-		countInStock
+		countInStock,
+		sizeInStock
 	} = req.body
 
 	const product = await Product.findById(req.params.id)
@@ -89,9 +97,10 @@ const updateProduct = asyncHandler(async (req, res) => {
 		product.price = price
 		product.description = description
 		product.image = image
-		product.brand = brand
+		product.keywords = keywords
 		product.category = category
 		product.countInStock = countInStock
+		product.sizeInStock = sizeInStock
 
 		const updatedProduct = await product.save()
 		res.json(updatedProduct)
@@ -121,7 +130,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 
 		const review = {
 			name    : req.user.name,
-			rating  : rating * 1,
+			rating  : Number(rating),
 			comment,
 			user    : req.user._id
 		}
@@ -133,12 +142,6 @@ const createProductReview = asyncHandler(async (req, res) => {
 		product.rating =
 			product.reviews.reduce((acc, item) => item.rating + acc, 0) /
 			product.reviews.length
-		console.log(
-			product.reviews[0].rating,
-			product.reviews[1].rating,
-			product.rating,
-			product.reviews.length
-		)
 
 		await product.save()
 		res.status(201).json({ message: 'Review added' })

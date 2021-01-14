@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Col, Row} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -15,11 +15,19 @@ const ProductEditScreen = ({ match, history }) => {
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
   const [image, setImage] = useState('')
-  const [brand, setBrand] = useState('')
+  const [keywords, setKeywords] = useState([])
   const [category, setCategory] = useState('')
   const [countInStock, setCountInStock] = useState(0)
   const [description, setDescription] = useState('')
   const [uploading, setUploading] = useState(false)
+  const [sizeInStock, setSizeInStock] = useState({
+    '5': 0,
+    '6': 0,
+    '7': 0,
+    '8': 0,
+    '9': 0,
+    '10': 0,
+  })
 
   const dispatch = useDispatch()
 
@@ -44,10 +52,11 @@ const ProductEditScreen = ({ match, history }) => {
         setName(product.name)
         setPrice(product.price)
         setImage(product.image)
-        setBrand(product.brand)
+        setKeywords(product.keywords)
         setCategory(product.category)
         setCountInStock(product.countInStock)
         setDescription(product.description)
+        setSizeInStock(product.sizeInStock)
       }
     }
   }, [dispatch, history, productId, product, successUpdate])
@@ -74,19 +83,20 @@ const ProductEditScreen = ({ match, history }) => {
       setUploading(false)
     }
   }
-
   const submitHandler = (e) => {
     e.preventDefault()
+    
     dispatch(
       updateProduct({
         _id: productId,
         name,
         price,
         image,
-        brand,
+        keywords,
         category,
         description,
         countInStock,
+        sizeInStock,
       })
     )
   }
@@ -143,22 +153,41 @@ const ProductEditScreen = ({ match, history }) => {
               {uploading && <Loader />}
             </Form.Group>
 
-            <Form.Group controlId='brand'>
-              <Form.Label>Brand</Form.Label>
+            <Form.Group controlId='keyword'>
+              <Form.Label>Keywords</Form.Label>
               <Form.Control
                 type='text'
-                placeholder='Enter brand'
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
+                placeholder='Enter keywords'
+                value={keywords}
+                onChange={(e) => setKeywords((e.target.value).split(","))}
               ></Form.Control>
             </Form.Group>
 
+            <Form.Group controlId='sizeInStock'>
+              <Form.Label>Sizes In Stock</Form.Label>
+                <Form.Row className='show-grid'>
+                {Object.keys(sizeInStock).map((size) => ( 
+                    <Col xs={6} sm={6} md={4} lg={4} key={size}>
+                    <Form.Label className='size-label'>{size}</Form.Label>
+                    <Form.Control
+                    key={size}
+                    className='text-center'
+                    type='number'
+                    placeholder='Enter countInStock'
+                    value={sizeInStock[size]}
+                    onChange={(e) =>setSizeInStock({...sizeInStock, [size] : e.target.value}) }
+                    />
+                    </Col>
+                  ))}
+                </Form.Row>
+            </Form.Group>
+
             <Form.Group controlId='countInStock'>
-              <Form.Label>Count In Stock</Form.Label>
+              <Form.Label>Total In Stock</Form.Label>
               <Form.Control
                 type='number'
                 placeholder='Enter countInStock'
-                value={countInStock}
+                value={Object.keys(sizeInStock).reduce((sum,key) => sum + parseFloat(sizeInStock[key]||0),0)}
                 onChange={(e) => setCountInStock(e.target.value)}
               ></Form.Control>
             </Form.Group>
