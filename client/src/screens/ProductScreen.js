@@ -10,10 +10,10 @@ import { listProductDetails, createProductReview } from '../actions/productActio
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
 
 const ProductScreen = ({ history, match }) => {
-    const [selectedQty, setSelectedQty] = useState()
+    const [selectedQty, setSelectedQty] = useState(1)
     const [availableQty, setAvailableQty] = useState(1)    
     const [inStockSizes, setInStockSizes] = useState([])
-    const [selectedSize, setSelectedSize] = useState('5')
+    const [selectedSize, setSelectedSize] = useState('')
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
 
@@ -59,7 +59,7 @@ const ProductScreen = ({ history, match }) => {
     }}, [selectedSize, product.sizeInStock])
 
     const addToCartHandler = () => {
-        history.push(`/cart/${match.params.id}?selectedQty=${selectedQty}`)
+        history.push(`/cart/${match.params.id}?qty=${selectedQty}`)
     }
 
     const submitHandler = (e) => {
@@ -71,8 +71,7 @@ const ProductScreen = ({ history, match }) => {
         })
       )
     }
-
-
+selectedQty && console.log(selectedQty)
 	return (
         <>
             <Link className='btn btn-light my-3' to='/'>
